@@ -35,6 +35,7 @@ import {
   MessageSpeechButton,
 } from "@/components/ai-elements/speech-controls";
 import { VoiceInputControls } from "@/components/ai-elements/voice-input-controls";
+import { MOCKED_MESSAGES_3 } from "@/lib/mocked-messages";
 
 export default function TravelAssistantContent() {
   const [input, setInput] = useState("");
@@ -224,7 +225,7 @@ export default function TravelAssistantContent() {
           <div className="flex-1 relative">
             <Conversation className="absolute inset-0">
               <ConversationContent className="py-6 md:p-6">
-                {messages.map((message) => {
+                {MOCKED_MESSAGES_3.map((message) => {
                   const messageText = extractTextFromMessage(
                     message.parts || []
                   );
