@@ -55,7 +55,7 @@ export const Hotels = ({ hotels, sendMessage }: HotelsProps) => {
           <Card
             key={hotel.id}
             className={`overflow-hidden hover:shadow-lg transition-shadow duration-200 p-2 rounded-lg gap-0 hover:cursor-pointer flex flex-col h-full ${
-              selectedHotel?.id === hotel.id ? "ring-2 ring-black" : ""
+              selectedHotel?.id === hotel.id ? "ring-2 ring-primary" : ""
             }`}
             onClick={() => {
               setModalHotelId(hotel.id);

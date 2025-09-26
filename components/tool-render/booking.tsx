@@ -324,7 +324,7 @@ export const Booking = ({ booking, sendMessage }: BookingProps) => {
 
           {/* Pay Button */}
           <Button
-            className="w-full bg-gray-900 hover:bg-gray-800 text-white h-12 rounded-full mb-4 font-bold"
+            className="w-full bg-primary hover:bg-primary-hover text-white h-12 rounded-full mb-4 font-bold"
             onClick={() => setIsCheckoutOpen(true)}
           >
             Pay Securely: ${booking.price?.toLocaleString()}

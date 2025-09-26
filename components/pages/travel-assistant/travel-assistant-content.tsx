@@ -147,20 +147,16 @@ export default function TravelAssistantContent() {
     <div className="min-h-screen">
       {/* Chat Interface */}
       <Card className="h-[100dvh] flex flex-col overflow-hidden gap-0">
-        <CardHeader className="border-b flex-shrink-0 bg-[#F9F9FB]">
+        <CardHeader className="flex-shrink-0 bg-[#1f5d72] text-white py-2">
           <div className="flex flex-wrap-reverse gap-2 items-center justify-between">
             <CardTitle className="text-lg">
               How can I help you plan your trip today?
             </CardTitle>
             <div className="flex items-center gap-4">
-              {hideBranding ? (
-                <UserStar size={32} className="text-gray-600" />
-              ) : (
-                <HyperfunnelIcon size={32} />
-              )}
+              <img src='./logo.png' alt="logo" className="max-w-[100]"/>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-sm font-semibold text-gray-900">
+                  <h1 className="text-sm font-semibold">
                     Travel Assistant
                   </h1>
                   {isDebugAvailable && (
@@ -172,14 +168,14 @@ export default function TravelAssistantContent() {
                     </Badge>
                   )}
                 </div>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs">
                   AI-powered travel planning
                 </p>
               </div>
             </div>
           </div>
 
-          <CardAction className="flex items-center gap-2">
+          <CardAction className="flex items-center gap-2 self-center">
             {/* Text-to-Speech Controls */}
             <SpeechControls
               isSpeechEnabled={isSpeechEnabled}
@@ -212,7 +208,7 @@ export default function TravelAssistantContent() {
                 variant="outline"
                 size="sm"
                 onClick={toggleDebug}
-                className="font-bold"
+                className="font-bold bg-transparent hover:bg-[#376878] hover:text-white"
               >
                 <Bug className="w-4 h-4 mr-2" />
                 {showDebug ? "Hide Debug" : "Show Debug"}
@@ -368,7 +364,7 @@ export default function TravelAssistantContent() {
                     isListening ||
                     isAutoSending
                   }
-                  className="absolute bottom-3 right-2 rounded-full w-10 h-10 p-0 bg-gray-800 hover:bg-gray-700 transition-all duration-200 disabled:opacity-30"
+                  className="absolute bottom-3 right-2 rounded-full w-10 h-10 p-0 bg-primary hover:bg-primary-hover transition-all duration-200 disabled:opacity-30"
                   onClick={() => {
                     const finalText = (
                       input + (transcript ? ` ${transcript}` : "")

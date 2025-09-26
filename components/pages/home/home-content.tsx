@@ -33,12 +33,8 @@ export default function HomeContent() {
           <div className="max-w-lg">
             <div className="mb-8">
               {/* Logo/Icon */}
-              <div className="w-24 h-24 bg-[#F9F9FB] rounded-full flex items-center justify-center mb-8">
-                {hideBranding ? (
-                  <UserStar size={64} className="text-gray-600" />
-                ) : (
-                  <HyperfunnelIcon size={64} />
-                )}
+              <div className="w-24 h-24 bg-[#004963] rounded-full flex items-center justify-center mb-8">
+                <img src='./logo.png' alt="logo"/>
               </div>
 
               {/* Headline */}
@@ -64,7 +60,7 @@ export default function HomeContent() {
               <Link href={buildTravelAssistantUrl()}>
                 <Button
                   size="lg"
-                  className="h-14 px-8 text-lg rounded-xl bg-gray-800 hover:bg-gray-700 text-white font-bold w-full"
+                  className="h-14 px-8 text-lg rounded-xl bg-primary hover:bg-primary-hover text-primary-foreground font-bold w-full"
                 >
                   Start planning your trip
                 </Button>
@@ -75,7 +71,7 @@ export default function HomeContent() {
 
         {/* Right Side - Features Card */}
         <div className="flex-1 flex items-center justify-center p-12">
-          <Card className="max-w-md w-full border-0 gap-0 rounded-xl bg-gray-50/80">
+          <Card className="max-w-md w-full border-0 gap-0 rounded-xl bg-secondary">
             <CardHeader className="px-6 py-4 rounded-tl-xl rounded-tr-xl">
               <CardTitle className="text-2xl font-bold text-gray-800">
                 Why Choose us?
@@ -87,8 +83,8 @@ export default function HomeContent() {
             <CardContent className="space-y-8 border-1 border-gray-100 rounded-xl p-6 bg-white">
               {/* Feature 1: Smart conversations */}
               <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-gray-100 rounded-4xl flex items-center justify-center flex-shrink-0">
-                  <MessageCircle className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 bg-secondary rounded-4xl flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800">
@@ -109,8 +105,8 @@ export default function HomeContent() {
 
               {/* Feature 2: Best hotels */}
               <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-gray-100 rounded-4xl flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 bg-secondary rounded-4xl flex items-center justify-center flex-shrink-0">
+                  <Building2 className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800">Best hotels</h3>
@@ -129,8 +125,8 @@ export default function HomeContent() {
 
               {/* Feature 3: Instant bookings */}
               <div className="flex items-start space-x-4">
-                <div className="w-10 h-10 bg-gray-100 rounded-4xl flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-5 h-5 text-gray-500" />
+                <div className="w-10 h-10 bg-secondary rounded-4xl flex items-center justify-center flex-shrink-0">
+                  <Zap className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-800">Instant bookings</h3>

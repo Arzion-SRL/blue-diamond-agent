@@ -65,8 +65,8 @@ export function SpeechControls({
                 onClick={onToggleSpeech}
                 className={`${
                   isSpeechEnabled
-                    ? "bg-blue-50 border-blue-200 text-blue-700"
-                    : "text-gray-600"
+                    ? "bg-[#3D6E7E] hover:bg-[#3D6E7E] border-[#3D6E7E] hover:text-white"
+                    : "bg-transparent hover:bg-[#3D6E7E] hover:text-white"
                 }`}
               >
                 {isSpeechEnabled ? (

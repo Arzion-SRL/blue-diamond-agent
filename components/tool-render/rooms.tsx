@@ -487,7 +487,7 @@ export const Rooms = ({ rooms, sendMessage }: RoomsProps) => {
               >
                 <Card
                   className={`overflow-hidden transition-all duration-200 flex flex-col h-full hover:shadow-lg rounded-lg gap-0 hover:cursor-pointer p-2 ${
-                    selectedRoom?.id === room.id ? "ring-2 ring-black" : ""
+                    selectedRoom?.id === room.id ? "ring-2 ring-primary" : ""
                   }`}
                   onClick={() => handleRoomClick(room)}
                 >
