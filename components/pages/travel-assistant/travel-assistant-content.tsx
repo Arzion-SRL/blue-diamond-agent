@@ -153,12 +153,10 @@ export default function TravelAssistantContent() {
               How can I help you plan your trip today?
             </CardTitle>
             <div className="flex items-center gap-4">
-              <img src='./logo.png' alt="logo" className="max-w-[100]"/>
+              <img src="./logo.png" alt="logo" className="max-w-[100]" />
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-sm font-semibold">
-                    Travel Assistant
-                  </h1>
+                  <h1 className="text-sm font-semibold">Travel Assistant</h1>
                   {isDebugAvailable && (
                     <Badge
                       variant="outline"
@@ -168,9 +166,7 @@ export default function TravelAssistantContent() {
                     </Badge>
                   )}
                 </div>
-                <p className="text-xs">
-                  AI-powered travel planning
-                </p>
+                <p className="text-xs">AI-powered travel planning</p>
               </div>
             </div>
           </div>
@@ -221,7 +217,7 @@ export default function TravelAssistantContent() {
           <div className="flex-1 relative">
             <Conversation className="absolute inset-0">
               <ConversationContent className="py-6 md:p-6">
-                {MOCKED_MESSAGES_3.map((message) => {
+                {messages.map((message) => {
                   const messageText = extractTextFromMessage(
                     message.parts || []
                   );
