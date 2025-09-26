@@ -1,0 +1,39 @@
+import React from "react";
+
+interface HyperfunnelIconProps {
+    size?: number;
+    className?: string;
+}
+
+export const HyperfunnelIcon: React.FC<HyperfunnelIconProps> = ({
+    size = 40,
+    className = "",
+}) => {
+    return (
+        <svg
+            width={size}
+            height={size}
+            viewBox="0 0 50 42"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <g style={{ mixBlendMode: "luminosity" }}>
+                <path
+                    d="M23 26L11.8878 26L18.6102 38.4465C20.7531 42.4142 26.4125 42.5072 28.6846 38.6121L30.5 35.5C29.5237 36.4763 27.8754 36.1939 27.2797 34.9484L23 26Z"
+                    fill="#282828"
+                />
+                <path
+                    d="M35.5 26L41 16L13.1969 16C10.1702 16 8.24002 19.2315 9.67498 21.8964L13.5 29C13.2383 27.4296 14.4493 26 16.0414 26L35.5 26Z"
+                    fill="#444444"
+                />
+                <path
+                    d="M44 10L49.5 1.94467e-05L4.7347 1.97989e-05C1.72509 1.98909e-05 -0.206483 3.19852 1.19456 5.86212L4.98001 13.0588C4.49543 11.5463 5.62377 10 7.21199 10L44 10Z"
+                    fill="#444444"
+                />
+            </g>
+        </svg>
+    );
+};
+
+export default HyperfunnelIcon;
