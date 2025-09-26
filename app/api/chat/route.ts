@@ -3,6 +3,7 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { experimental_createMCPClient as createMCPClient } from "ai";
 import { TRAVEL_ASSISTANT_SYSTEM_PROMPT } from "@/lib/prompts";
 import { fetchHotelChainByName } from "@/lib/api/chains";
+import { toolSchemas } from "@/lib/tools-schema";
 
 const openRouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY || "",
@@ -24,7 +25,9 @@ export async function POST(req: Request) {
       },
     });
 
-    const mcpTools = await mcpClient.tools();
+    const mcpTools = await mcpClient.tools({
+      schemas: toolSchemas,
+    });
     const { checkout_booking, search_hotels, ...mcpToolWithoutCheckout } = mcpTools;
 
     const hotelChain = await fetchHotelChainByName(HOTEL_CHAIN_NAME);
