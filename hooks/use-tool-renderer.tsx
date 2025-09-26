@@ -39,6 +39,16 @@ export const TOOL_REGISTRY: Record<string, ToolConfig> = {
     }),
     showTextWithTool: true,
   },
+  get_hotels_by_chain: {
+    component: Hotels,
+    loadingMessage: "Searching hotels...",
+    errorMessage: (error) =>
+      `Error searching hotels: ${error || "Unknown error"}`,
+    extractData: (output) => ({
+      hotels: output?.structuredContent?.content || [],
+    }),
+    showTextWithTool: true,
+  },
 
   get_rooms_by_hotel_id: {
     component: Rooms,
@@ -250,7 +260,7 @@ export function useToolRenderer(
             {escapeMarkdownChars(part.text || "")}
           </Response>
         ))}
-        {toolContent && status !== "streaming" && toolContent}
+        {toolContent}
       </div>
     );
   };
