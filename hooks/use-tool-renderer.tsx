@@ -135,6 +135,17 @@ export interface MessagePart {
   [key: string]: any;
 }
 
+// Constants
+const TOOL_PREFIX = "tool-";
+
+// Helper function to extract tool name from tool type
+const getToolNameFromType = (type: string): string | null => {
+  if (type.startsWith(TOOL_PREFIX)) {
+    return type.replace(TOOL_PREFIX, "");
+  }
+  return null;
+};
+
 export function useToolRenderer(
   sendMessage?: (message: any) => void,
   status?: ChatStatus
@@ -150,8 +161,8 @@ export function useToolRenderer(
     // Check for priority tools first
     for (const priorityTool of priorityTools) {
       for (const part of parts) {
-        if (part.type.startsWith("tool-")) {
-          const toolName = part.type.replace("tool-", "");
+        const toolName = getToolNameFromType(part.type);
+        if (toolName) {
           const toolPart = part as ToolPart;
 
           if (toolName === priorityTool) {
@@ -179,8 +190,8 @@ export function useToolRenderer(
 
     // Then check for other tools
     for (const part of parts) {
-      if (part.type.startsWith("tool-")) {
-        const toolName = part.type.replace("tool-", "");
+      const toolName = getToolNameFromType(part.type);
+      if (toolName) {
         const toolPart = part as ToolPart;
         const toolConfig = TOOL_REGISTRY[toolName];
 
@@ -209,8 +220,8 @@ export function useToolRenderer(
 
     // Look for tools in loading or error states
     for (const part of parts) {
-      if (part.type.startsWith("tool-")) {
-        const toolName = part.type.replace("tool-", "");
+      const toolName = getToolNameFromType(part.type);
+      if (toolName) {
         const toolPart = part as ToolPart;
         const toolConfig = TOOL_REGISTRY[toolName];
 
@@ -252,14 +263,14 @@ export function useToolRenderer(
 
   // Check if there are any tools in the parts
   const hasTool = (parts: MessagePart[]): boolean => {
-    return parts.some((part) => part.type.startsWith("tool-"));
+    return parts.some((part) => getToolNameFromType(part.type) !== null);
   };
 
   // Check if any tool in the message should show text along with it
   const shouldShowTextWithTool = (parts: MessagePart[]): boolean => {
     for (const part of parts) {
-      if (part.type.startsWith("tool-")) {
-        const toolName = part.type.replace("tool-", "");
+      const toolName = getToolNameFromType(part.type);
+      if (toolName) {
         const toolConfig = TOOL_REGISTRY[toolName];
 
         if (toolConfig?.showTextWithTool) {
