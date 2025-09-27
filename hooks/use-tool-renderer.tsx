@@ -2,6 +2,7 @@ import { Hotels } from "@/components/tool-render/hotel";
 import { Rooms } from "@/components/tool-render/rooms";
 import { Booking } from "@/components/tool-render/booking";
 import { BookingDetails } from "@/components/tool-render/booking-details";
+// import { Destinations } from "@/components/tool-render/destinations";
 import { Response } from "@/components/ai-elements/response";
 import type { ChatStatus } from "ai";
 import { escapeMarkdownChars } from "@/lib/utils";
@@ -121,8 +122,9 @@ export const TOOL_REGISTRY: Record<string, ToolConfig> = {
 
 export interface ToolPart {
   type: string;
-  toolName?: string;
+  toolCallId?: string;
   state?: "input-available" | "output-available" | "output-error";
+  input?: any;
   output?: any;
   errorText?: string;
 }
@@ -148,15 +150,12 @@ export function useToolRenderer(
     // Check for priority tools first
     for (const priorityTool of priorityTools) {
       for (const part of parts) {
-        if (
-          part.type === "dynamic-tool" &&
-          "toolName" in part &&
-          "state" in part
-        ) {
+        if (part.type.startsWith("tool-")) {
+          const toolName = part.type.replace("tool-", "");
           const toolPart = part as ToolPart;
 
-          if (toolPart.toolName === priorityTool) {
-            const toolConfig = TOOL_REGISTRY[toolPart.toolName!];
+          if (toolName === priorityTool) {
+            const toolConfig = TOOL_REGISTRY[toolName];
 
             if (
               toolConfig &&
@@ -170,7 +169,7 @@ export function useToolRenderer(
                 // Render tool immediately without any delays
                 return <Component {...data} sendMessage={sendMessage} />;
               } catch (error) {
-                return <div>Error rendering tool: {toolPart.toolName}</div>;
+                return <div>Error rendering tool: {toolName}</div>;
               }
             }
           }
@@ -180,16 +179,13 @@ export function useToolRenderer(
 
     // Then check for other tools
     for (const part of parts) {
-      if (
-        part.type === "dynamic-tool" &&
-        "toolName" in part &&
-        "state" in part
-      ) {
+      if (part.type.startsWith("tool-")) {
+        const toolName = part.type.replace("tool-", "");
         const toolPart = part as ToolPart;
-        const toolConfig = TOOL_REGISTRY[toolPart.toolName!];
+        const toolConfig = TOOL_REGISTRY[toolName];
 
         // Skip priority tools as they were already checked
-        if (priorityTools.includes(toolPart.toolName!)) {
+        if (priorityTools.includes(toolName)) {
           continue;
         }
 
@@ -205,7 +201,7 @@ export function useToolRenderer(
             // Render tool immediately without any delays
             return <Component {...data} sendMessage={sendMessage} />;
           } catch (error) {
-            return <div>Error rendering tool: {toolPart.toolName}</div>;
+            return <div>Error rendering tool: {toolName}</div>;
           }
         }
       }
@@ -213,13 +209,10 @@ export function useToolRenderer(
 
     // Look for tools in loading or error states
     for (const part of parts) {
-      if (
-        part.type === "dynamic-tool" &&
-        "toolName" in part &&
-        "state" in part
-      ) {
+      if (part.type.startsWith("tool-")) {
+        const toolName = part.type.replace("tool-", "");
         const toolPart = part as ToolPart;
-        const toolConfig = TOOL_REGISTRY[toolPart.toolName!];
+        const toolConfig = TOOL_REGISTRY[toolName];
 
         if (toolConfig) {
           switch (toolPart.state) {
@@ -242,14 +235,6 @@ export function useToolRenderer(
     );
     const toolContent = renderTool(parts);
 
-    // Check if the tool has completed output (should always be shown)
-    const hasCompletedTool = parts.some(
-      (part) =>
-        part.type === "dynamic-tool" &&
-        "state" in part &&
-        part.state === "output-available"
-    );
-
     // Render text first, then tools
     // Show tool content only after streaming is complete
     // This ensures tools render AFTER the text stream finishes
@@ -267,22 +252,15 @@ export function useToolRenderer(
 
   // Check if there are any tools in the parts
   const hasTool = (parts: MessagePart[]): boolean => {
-    return parts.some(
-      (part) =>
-        part.type === "dynamic-tool" && "toolName" in part && "state" in part
-    );
+    return parts.some((part) => part.type.startsWith("tool-"));
   };
 
   // Check if any tool in the message should show text along with it
   const shouldShowTextWithTool = (parts: MessagePart[]): boolean => {
     for (const part of parts) {
-      if (
-        part.type === "dynamic-tool" &&
-        "toolName" in part &&
-        "state" in part
-      ) {
-        const toolPart = part as ToolPart;
-        const toolConfig = TOOL_REGISTRY[toolPart.toolName!];
+      if (part.type.startsWith("tool-")) {
+        const toolName = part.type.replace("tool-", "");
+        const toolConfig = TOOL_REGISTRY[toolName];
 
         if (toolConfig?.showTextWithTool) {
           return true;
