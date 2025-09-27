@@ -1,9 +1,8 @@
 import { UIMessage, convertToModelMessages, stepCountIs, streamText } from "ai";
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { experimental_createMCPClient as createMCPClient } from "ai";
 import { TRAVEL_ASSISTANT_SYSTEM_PROMPT } from "@/lib/prompts";
 import { fetchHotelChainByName } from "@/lib/api/chains";
-import { toolSchemas } from "@/lib/tools-schema";
+import { createMCPService } from "@/lib/mcp";
 
 const openRouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY || "",
@@ -18,17 +17,10 @@ export async function POST(req: Request) {
     const { messages }: { messages: UIMessage[]; } = await req.json();
     const MCP_SERVER_URL = process.env.MCP_SERVER_URL || "";
 
-    const mcpClient = await createMCPClient({
-      transport: {
-        type: "sse",
-        url: MCP_SERVER_URL,
-      },
-    });
+    const mcpService = createMCPService(MCP_SERVER_URL);
+    await mcpService.createClient();
 
-    const mcpTools = await mcpClient.tools({
-      schemas: toolSchemas,
-    });
-    const { checkout_booking, search_hotels, ...mcpToolWithoutCheckout } = mcpTools;
+    const mcpTools = await mcpService.getFilteredTools();
 
     const hotelChain = await fetchHotelChainByName(HOTEL_CHAIN_NAME);
     if (!hotelChain) {
@@ -39,10 +31,10 @@ export async function POST(req: Request) {
       system: TRAVEL_ASSISTANT_SYSTEM_PROMPT(hotelChain),
       messages: convertToModelMessages(messages),
       maxOutputTokens: 1000,
-      tools: { ...mcpToolWithoutCheckout },
+      tools: { ...mcpTools },
       stopWhen: stepCountIs(5),
       onFinish: async () => {
-        await mcpClient.close();
+        await mcpService.closeClient();
       },
     });
 
